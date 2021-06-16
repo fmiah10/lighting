@@ -1,6 +1,6 @@
 from display import *
 from draw import *
-from parse import *
+from parser import *
 from matrix import *
 import math
 
