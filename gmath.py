@@ -18,7 +18,7 @@ DIFFUSE = 1
 SPECULAR = 2
 LOCATION = 0
 COLOR = 1
-SPECULAR_EXP = 4
+SPECULAR_EXP = 3
 
 #lighting functions
 def get_lighting(normal, view, ambient, light, areflect, dreflect, sreflect ):
@@ -27,7 +27,7 @@ def get_lighting(normal, view, ambient, light, areflect, dreflect, sreflect ):
     iSpecular = calculate_specular(light, sreflect, view, normal)
     i = [0, 0, 0]
     for k in range(len(i)):
-        i[k] = iAmbient[k] + iDiffuse[k] + iSpecular[k]
+        i[k] = int(iAmbient[k]) + int(iDiffuse[k]) + int(iSpecular[k])
     return limit_color(i)
 
 def calculate_ambient(alight, areflect):
@@ -36,7 +36,7 @@ def calculate_ambient(alight, areflect):
     iAmbient = [0, 0, 0]
     for i in range(len(alight)):
         iAmbient[i] = alight[i] * areflect[i]
-    return limit_color(iAmbient)
+    return iAmbient
 
 def calculate_diffuse(light, dreflect, normal):
     lightVector = light[LOCATION]
@@ -47,7 +47,7 @@ def calculate_diffuse(light, dreflect, normal):
     iDiffuse = [0, 0, 0]
     for i in range(len(iDiffuse)):
         iDiffuse[i] = lightColor[i] * dreflect[i] * prod
-    return limit_color(iDiffuse)
+    return iDiffuse
 
 def calculate_specular(light, sreflect, view, normal):
     lightVector = light[LOCATION]
@@ -61,7 +61,7 @@ def calculate_specular(light, sreflect, view, normal):
     iSpecular = [0, 0, 0]
     for i in range(len(iSpecular)):
         iSpecular[i] = ( lightColor[i] * sreflect[i] * ((dot_product(r, view)) ** SPECULAR_EXP) )
-    return limit_color(iSpecular)
+    return iSpecular
 
 def limit_color(color):
     for i in range(len(color)):
